@@ -1,0 +1,214 @@
+\documentclass{article}
+
+\usepackage[round]{natbib}
+\usepackage{hyperref}
+\usepackage{dirtree}
+\usepackage{graphicx}
+\graphicspath{{img/}}
+
+\title{ARGoS-Blockchain interface}
+\author{Volker Strobel \and Alex Pacheco \and Marco Dorigo}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+Several recent works have addressed the combination of blockchain
+technology and swarm robotics. This combinatin proves useful for
+security, consensus finding, robot economies, robot-as-a-service, and
+potentially many more.
+
+However, running these experiments requires a suitable framework. Such
+a framework proves useful both for researchers who do not have access
+to a suitable robot platform, such as the Pi-puck robot. Additionally,
+a suitable platform is important before running time- and
+cost-consuming experiments with real robots.
+
+The ARGoS robot simulator \citep{PinTriOGr-etal2012:si} is the
+state-of-the-art research platform to conduct simulations in swarm
+robotics.
+
+In general, in swarm robotics research, each robot is a blockchain
+node, and contributes to the maintenance of the system by exchanges
+blockchain information. To link ARGoS and blockchain software, we
+developed the ARGoS-Blockchain interface that provides access to the
+blockchain nodes for the robots (Figure~\ref{fig:interface}). The
+interface is intended to facilitate research in blockchain-based robot
+swarms by allowing to call blockchain functions in
+ARGoS. Additionally, Docker makes it easy to install and run the
+interface on different platforms.
+
+
+\section{Software availability}
+
+%The Blockchain module is available at
+%\url{https://github.com/Pold87/ARGoS-Blockchain-interface} and the
+%ARGoS module is available at
+%\url{https://github.com/Pold87/ARGoS-Blockchain-interface}.
+
+%\dirtree{%
+%.1 geth/.
+%.1 img/.
+%.1 local_scripts/.
+%.1 .gitignore.
+%.1 README.
+%.1 docker-compose.yml.
+%}
+
+
+% TODO: this is a good figure, also include it
+% \begin{figure}
+%   \centering
+%     \includegraphics[width=\textwidth]{Figure5}
+%   \caption{For each robot, the ARGoS-Blockchain interface establishes
+%     a connection to the Ethereum blockchain via a Docker container and
+%     shell scripts that provide templates for executing Ethereum (geth)
+%     functions.}
+%   \label{fig:interface}  
+% \end{figure}
+
+\section{Overview}
+
+The implementation of the custom Ethereum network is based on
+Capgemini \textsc{aie}'s Ethereum
+Docker\footnote{\url{https://github.com/Capgemini-AIE/ethereum-docker},
+  accessed on November 6, 2019}. Docker containers
+\citep{Mer2014:linux} contain all the necessary dependencies to run
+specific applications and are more lightweight than a virtual
+machine. In our setup, for each robot, the Ethereum implementation
+\emph{geth} is executed in a separate Docker container. The simulated
+robots maintain a \emph{custom} Ethereum network, i.e., a network that
+is shared among the simulated robots and independent of Ethereum's
+main network. Different containers can communicate with each other via
+channels.
+
+In order to execute an Ethereum function (e.g., create a new smart
+contract) from ARGoS, a robot uses its C\texttt{++} controller to
+attach to the Docker container. The Docker containers provide shell
+scripts\footnote{The interface uses shell scripts, since, during
+  development, it became evident that they are executed much faster
+  than other Ethereum APIs.} with customizable templates (e.g., one of
+the templates compiles the smart contract, uses the binary code to
+send a blockchain transactions, and waits until the contract is
+mined). Via Ethereum's \textsc{ipc} (interprocess communications)
+interface, the shell scripts execute the Ethereum functions.
+
+We use an auxiliary `bootstrap' node for publishing the smart contract
+to the blockchain at the beginning of each run of the simulations
+(Figure~\ref{fig:initialization}). The bootstrap node then mines the
+smart contract and sends the contract address and the \textsc{abi}
+(application binary interface; the \textsc{abi} specifies which
+functions a smart contract provides and how to call them) to the
+controllers of the robots. As soon as this is done, the bootstrap node
+is removed from the network. The bootstrap node is not necessarily
+required and the smart contract could also be created by a
+robot. However, we used an auxiliary node to make sure (i) that the
+smart contract is available at the start of the actual experimental
+run and (ii) that robots have the same initial conditions in all
+experiments.
+
+The experiments were conducted on a computer cluster. To simulate the
+limited hardware of real robots, one core with 2.0~GHz and 1.8~GB of
+memory was assigned to each Docker container\footnote{This is a
+  reasonable choice as a robot's computer could easily have such
+  characteristics. It is also a convenient choice because on a
+  computer with 2.0~GHz and 1.8~GB of RAM, Ethereum works
+  ``out-of-the-box,'' without any modifications; therefore, any
+  interested user can obtain the most recent release of Ethereum from
+  the official depository and use it with our publicly available
+  ARGoS-Blockchain interface.}. The communication channels between the
+Docker containers were only established when robots were within a
+50~cm communication range in order to simulate the local communication
+capabilities of real robots.
+
+The description in this report is intended to allow everyone to run
+blockchain-based robot experiments in simulation. There is no need for
+specific hardware but powerful CPU and RAM are advantageous for fluent
+experiments.
+
+The ARGoS-Blockchain interface is composed of two modules. 
+
+\subsubsection{Module~1: Blockchain part}
+Module~1 allows for creating an Ethereum network with several nodes,
+where each node is located in a separate Docker container. For the
+ARGoS-Blockchain interface, the interaction with the Ethereum nodes is
+done via C\texttt{++}, using the code in the following repository:
+\url{https://github.com/Pold87/robot-swarms-need-blockchain}
+
+This repository contains one module of the ARGoS-Blockchain interface
+that is described in the article ``Blockchain Technology Secures Robot
+Swarms: A Comparison of Consensus Protocols and Their Resilience to
+Byzantine Robots by Strobel, V., Castello Ferrer, E., and Dorigo, M.''
+
+For debugging purposes or for creating your own private Ethereum
+network, you can also use this module without ARGoS.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics{interface}
+  \caption[Overview of the ARGoS-Blockchain interface]{This scheme
+    gives an overview of the workflow of the ARGoS-Blockchain
+    interface}
+  \label{fig:interface}
+\end{figure}
+
+\subsubsection{Module~2: ARGoS part}
+
+\section{Setup}
+
+The very first time you run this code, it is required to create the
+Docker image for the Ethereum nodes and initialize Docker Swarm as
+follows:
+
+\begin{verbatim}
+cd geth/
+docker build -t mygeth .
+docker swarm init
+\end{verbatim}
+
+Additionally, you have to set the variable \verb|DOCKERFOLDER| in the
+file \verb|global_config.sh| to the full path where this repository is
+located on your computer, for example:
+
+\begin{verbatim}
+/Users/vstrobel/Documents/ARGoS-Blockchain-interface/
+\end{verbatim}
+
+In order to be able to mine, you need to create the DAG datasets as
+follows (the creates files require approximately 2~GB disk space and
+the execution of the script can take take several minutes):
+
+\begin{verbatim}
+cd local_scripts/
+bash create_dag.sh
+\end{verbatim}
+
+\section{Run}
+Usually, the network is created when a swarm robotics experiment is
+started, using one of the start scripts in
+\url{https://github.com/Pold87/robot-swarms-need-blockchain}.
+
+However, you can also start the Ethereum network without ARGoS, using
+the following command:
+
+\begin{verbatim}
+bash local_scripts/start_network.sh <number of nodes>
+\end{verbatim}
+
+That is, \verb|bash local_scripts/start_network.sh 5|, would create a
+private Ethereum network with 5 nodes.
+
+\subsubsection*{Acknowledgements}
+
+Volker Strobel and Marco Dorigo acknowledge support from the Belgian
+F.R.S.-FNRS, of which they are a Research Fellow and a Research
+Director respectively. Alexandre Pacheco acknowledges support from the
+Faculty of Applied Sciences of the Universit\'{e} Libre de Bruxelles.
+
+
+%\bibliographystyle{splncs04}
+\bibliography{library}
+
+
+\end{document}
