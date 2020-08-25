@@ -15,19 +15,24 @@
 \section{Introduction}
 
 Several recent works have addressed the combination of blockchain
-technology and swarm robotics. This combinatin proves useful for
-security, consensus finding, robot economies, robot-as-a-service, and
-potentially many more.
-
-However, running these experiments requires a suitable framework. Such
-a framework proves useful both for researchers who do not have access
-to a suitable robot platform, such as the Pi-puck robot. Additionally,
-a suitable platform is important before running time- and
-cost-consuming experiments with real robots.
-
-The ARGoS robot simulator \citep{PinTriOGr-etal2012:si} is the
-state-of-the-art research platform to conduct simulations in swarm
-robotics.
+technology and swarm robotics
+\cite{StrCasDor2018:aamas,StrDor2018:ants,StrFerDor2017:techreport-013}. This
+combination proves useful for security, consensus finding, robot
+economies, robot-as-a-service, and potentially many other applications
+in robot swarms. However, conducting experiments involving robot
+swarms and blockchain technology requires a suitable testbed. A widely
+used framework consists of the Pi-puck robot platform running the
+Ethereum blockchain network. However, not every researcher has access
+to physical robots, obtaining and maintaining them be both
+time-intense and cost-intense, not to mention the lengthy execution of
+experiments. Therefore, a simulation testbed is needed to quickly try
+and test different controllers and scenarios. The ARGoS robot
+simulator \citep{PinTriOGr-etal2012:si} is the state-of-the-art
+research platform to conduct simulations in swarm robotics. Such a
+framework proves useful both for researchers who do not have access to
+a suitable robot platform, such as the Pi-puck robot. Additionally, a
+suitable platform is important before running time- and cost-consuming
+experiments with real robots.
 
 In general, in swarm robotics research, each robot is a blockchain
 node, and contributes to the maintenance of the system by exchanges
@@ -36,37 +41,39 @@ developed the ARGoS-Blockchain interface that provides access to the
 blockchain nodes for the robots (Figure~\ref{fig:interface}). The
 interface is intended to facilitate research in blockchain-based robot
 swarms by allowing to call blockchain functions in
-ARGoS. Additionally, Docker makes it easy to install and run the
+ARGoS. Additionally, using Docker makes it easy to install and run the
 interface on different platforms.
 
 
 \section{Software availability}
 
-%The Blockchain module is available at
-%\url{https://github.com/Pold87/ARGoS-Blockchain-interface} and the
-%ARGoS module is available at
-%\url{https://github.com/Pold87/ARGoS-Blockchain-interface}.
+The open-source software is available at GitHub: the blockchain module
+is available at
+\footnote{\url{https://github.com/Pold87/ARGoS-Blockchain-interface}}
+and the ARGoS module is available at
+\footnote{\url{https://github.com/Pold87/robot-swarms-need-blockchain}}.
 
-%\dirtree{%
-%.1 geth/.
-%.1 img/.
-%.1 local_scripts/.
-%.1 .gitignore.
-%.1 README.
-%.1 docker-compose.yml.
-%}
-
-
-% TODO: this is a good figure, also include it
-% \begin{figure}
-%   \centering
-%     \includegraphics[width=\textwidth]{Figure5}
-%   \caption{For each robot, the ARGoS-Blockchain interface establishes
-%     a connection to the Ethereum blockchain via a Docker container and
-%     shell scripts that provide templates for executing Ethereum (geth)
-%     functions.}
-%   \label{fig:interface}  
-% \end{figure}
+\begin{figure}[t]%\centering
+\dirtree{%
+.1 geth/.
+.1 img/.
+.1 local\_scripts/.
+.1 .gitignore.
+.1 README.
+.1 docker-compose.yml.
+}
+\label{fig:folderstructure}  
+\caption{The folder structure of the package.}
+\end{figure}
+\begin{figure}
+  \centering
+    \includegraphics[width=\textwidth]{overview}
+  \caption{For each robot, the ARGoS-Blockchain interface establishes
+    a connection to the Ethereum blockchain via a Docker container and
+    shell scripts that provide templates for executing Ethereum (geth)
+    functions.}
+  \label{fig:overview}  
+\end{figure}
 
 \section{Overview}
 
@@ -157,22 +164,43 @@ network, you can also use this module without ARGoS.
 
 \section{Setup}
 
+\subsection{Requirements}
+\begin{itemize}
+\item Linux
+\item Docker
+\end{itemize}
+
+\subsection{Installation: Blockchain module}
 The very first time you run this code, it is required to create the
 Docker image for the Ethereum nodes and initialize Docker Swarm as
 follows:
 
 \begin{verbatim}
-cd geth/
-docker build -t mygeth .
-docker swarm init
+git clone https://github.com/Pold87/ARGoS-Blockchain-interface
+cd ARGoS-Blockchain-interface/ && cd geth/
+sudo docker build -t mygeth .
+sudo docker swarm init
 \end{verbatim}
 
-Additionally, you have to set the variable \verb|DOCKERFOLDER| in the
+\subsection{Installation: ARGoS module}
+
+
+\begin{verbatim}
+git clone https://github.com/Pold87/robot-swarms-need-blockchain
+cd robot-swarms-need-blockchain/
+mkdir cmake/
+cd cmake/
+cmake ..
+make
+\end{verbatim}
+
+
+Additionally, you have to set the variable \verb|DOCKERBASE| in the
 file \verb|global_config.sh| to the full path where this repository is
 located on your computer, for example:
 
 \begin{verbatim}
-/Users/vstrobel/Documents/ARGoS-Blockchain-interface/
+DOCKERBASE='/home/vstrobel/Documents/docker-geth-network/'
 \end{verbatim}
 
 In order to be able to mine, you need to create the DAG datasets as
@@ -207,7 +235,7 @@ Director respectively. Alexandre Pacheco acknowledges support from the
 Faculty of Applied Sciences of the Universit\'{e} Libre de Bruxelles.
 
 
-%\bibliographystyle{splncs04}
+\bibliographystyle{plain}
 \bibliography{library}
 
 
