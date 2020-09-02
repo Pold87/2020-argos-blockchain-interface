@@ -1,12 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.12)  24 AUG 2020 22:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.12)  1 SEP 2020 23:57
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
-**article.tex
-(./article.tex
-LaTeX2e <2017-04-15>
-Babel <3.18> and hyphenation patterns for 7 language(s) loaded.
-(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+**\input article.tex
+(./article.tex (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
@@ -194,8 +192,8 @@ File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 LaTeX Warning: Label `fig:interface' multiply defined.
 
 
-! Package natbib Error: Bibliography not compatible with author-year citations.
-
+./article.aux:45: Package natbib Error: Bibliography not compatible with author
+-year citations.
 (natbib)                Press <return> to continue in numerical citation style.
 
 
@@ -205,8 +203,9 @@ Type  H <return>  for immediate help.
                                                   
 l.45 ...mand\NAT@force@numbers{}\NAT@force@numbers
                                                   
-? q
-OK, entering \batchmode...
+Check the bibliography entries for non-compliant syntax,
+or select author-year BibTeX style, e.g. plainnat
+
 )
 \openout1 = `article.aux'.
 
@@ -226,8 +225,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 12.
 LaTeX Font Info:    ... okay on input line 12.
 \AtBeginShipoutBox=\box26
 Package hyperref Info: Link coloring OFF on input line 12.
-
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
@@ -238,7 +236,8 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 12.
 LaTeX Info: Redefining \pageref on input line 12.
 LaTeX Info: Redefining \nameref on input line 12.
- (./article.out) (./article.out)
+
+(./article.out) (./article.out)
 \@outlinefile=\write3
 \openout3 = `article.out'.
 
@@ -256,8 +255,7 @@ LaTeX Info: Redefining \nameref on input line 12.
 \MPnumerator=\count107
 \makeMPintoPDFobject=\count108
 \everyMPtoPDFconversion=\toks16
-)
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
@@ -280,29 +278,35 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 14.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 52.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 52.
-<img/overview.pdf, id=53, 428.39145pt x 79.13063pt>
-File: img/overview.pdf Graphic file (type pdf)
-<use img/overview.pdf>
-Package pdftex.def Info: img/overview.pdf  used on input line 70.
-(pdftex.def)             Requested size: 345.0pt x 63.72838pt.
- [1
+
+Overfull \hbox (1.19942pt too wide) in paragraph at lines 17--30
+[]\OT1/cmr/m/n/9 This tech-ni-cal re-port doc-u-ments the in-stal-la-tion and u
+se of the ARGoS-
+ []
+
+[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-
-LaTeX Warning: Reference `fig:initialization' on page 2 undefined on input line
- 106.
-
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 70.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 70.
+<img/overview.pdf, id=69, 428.39145pt x 79.13063pt>
+File: img/overview.pdf Graphic file (type pdf)
+<use img/overview.pdf>
+Package pdftex.def Info: img/overview.pdf  used on input line 88.
+(pdftex.def)             Requested size: 345.0pt x 63.72838pt.
  [2 <./img/overview.pdf>]
 
+LaTeX Warning: Reference `fig:initialization' on page 3 undefined on input line
+ 124.
+
+
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 139.
+(hyperref)                than one, level fixed on input line 157.
 
 
-Overfull \hbox (80.38669pt too wide) in paragraph at lines 140--145
+Overfull \hbox (80.38669pt too wide) in paragraph at lines 158--163
 \OT1/cmr/m/n/10 code in the fol-low-ing repos-i-tory: []$\OT1/cmtt/m/n/10 https
  : / / github . com / Pold87 / robot-[]swarms-[]need-[]blockchain$[] 
  []
@@ -310,77 +314,297 @@ Overfull \hbox (80.38669pt too wide) in paragraph at lines 140--145
 <img/interface.png, id=121, 504.9264pt x 134.904pt>
 File: img/interface.png Graphic file (type png)
 <use img/interface.png>
-Package pdftex.def Info: img/interface.png  used on input line 156.
+Package pdftex.def Info: img/interface.png  used on input line 174.
 (pdftex.def)             Requested size: 504.92517pt x 134.90367pt.
 
-Overfull \hbox (159.92517pt too wide) in paragraph at lines 156--159
+Overfull \hbox (159.92517pt too wide) in paragraph at lines 174--177
  [][] 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 169.
+[3]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 190.
 
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 169.
- [3]
-Overfull \hbox (27.08144pt too wide) in paragraph at lines 194--197
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 190.
+ [4 <./img/interface.png>]
+./article.tex:236: Missing $ inserted.
+<inserted text> 
+                $
+l.236 TODO: Set the ARGoS folder in start_
+                                          network.sh
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./article.tex:237: Missing $ inserted.
+<inserted text> 
+                $
+l.237 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (27.08144pt too wide) in paragraph at lines 250--253
 []\OT1/cmr/m/n/10 Additionally, you have to set the vari-able [][]\OT1/cmtt/m/n
 /10 DOCKERBASE []\OT1/cmr/m/n/10 in the file [][]\OT1/cmtt/m/n/10 global_config
 .sh
  []
 
 
-Overfull \hbox (66.05327pt too wide) in paragraph at lines 212--215
+Overfull \hbox (66.05327pt too wide) in paragraph at lines 269--272
 \OT1/cmr/m/n/10 ing one of the start scripts in []$\OT1/cmtt/m/n/10 https : / /
  github . com / Pold87 / robot-[]swarms-[]need-[]blockchain$[]\OT1/cmr/m/n/10 .
  
  []
 
- [4 <./img/interface.png>] (./article.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 238.
- [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 238.
+[5]
+./article.tex:297: Missing $ inserted.
+<inserted text> 
+                $
+l.297 \texttt{/interface/generic_interface.cpp}
+                                               .
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./article.tex:297: Extra }, or forgotten $.
+<recently read> \egroup 
+                        
+l.297 \texttt{/interface/generic_interface.cpp}
+                                               .
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./article.tex:298: Missing $ inserted.
+<inserted text> 
+                $
+l.298 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (37.71442pt too wide) in paragraph at lines 296--298
+\OT1/cmr/m/n/10 The func-tions of the in-ter-face can be found in the file \OT1
+/cmtt/m/n/10 /interface/generic$[]\OML/cmm/m/it/10 nterface:cpp:$ 
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 301
+.
+(/usr/share/texmf/tex/latex/R/tex/latex/omscmtt.fd
+File: omscmtt.fd 
+)
+LaTeX Font Info:    Font shape `OMS/cmtt/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 301.
+
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 308--312
+\OT1/cmtt/m/n/10 Volker Strobel and Marco Dorigo acknowledge support from the B
+elgian
+ []
+
+
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 308--312
+\OT1/cmtt/m/n/10 F.R.S.-FNRS, of which they are a Research Fellow and a Researc
+h Director
+ []
+
+
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 308--312
+\OT1/cmtt/m/n/10 respectively. Alexandre Pacheco acknowledges support from the 
+Faculty
+ []
+
+(./article.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 4--8
+[]\OT1/cmtt/m/n/10 Dirk Merkel.  Docker: Lightweight linux containers for
+ []
+
+
+Underfull \hbox (badness 5711) in paragraph at lines 4--8
+\OT1/cmtt/m/n/10 consistent development and deployment.  \OT1/cmtt/m/it/10 Linu
+x J.\OT1/cmtt/m/n/10 , 2014(239),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--17
+[]\OT1/cmtt/m/n/10 C. Pinciroli, V. Trianni, R. O'Grady, G. Pini, A. Brutschy,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--17
+\OT1/cmtt/m/n/10 M. Brambilla, N. Mathews, E. Ferrante, G. Di Caro,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--17
+\OT1/cmtt/m/n/10 F. Ducatelle, M. Birattari, L. M. Gambardella, and M. Dorigo.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--17
+\OT1/cmtt/m/n/10 ARGoS: A modular, parallel, multi-engine simulator for
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--24
+[]\OT1/cmtt/m/n/10 V. Strobel, E. Castell^^So Ferrer, and M. Dorigo.  Managing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--24
+\OT1/cmtt/m/n/10 Byzantine robots via blockchain technology in a swarm
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--24
+\OT1/cmtt/m/n/10 robotics collective decision making scenario.  Technical
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--24
+\OT1/cmtt/m/n/10 Report TR/IRIDIA/2017-013, IRIDIA, Universit^^Se Libre de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--33
+[]\OT1/cmtt/m/n/10 Volker Strobel, Eduardo Castell^^So Ferrer, and Marco Dorigo
+.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--33
+\OT1/cmtt/m/n/10 Managing Byzantine robots via blockchain technology in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--33
+\OT1/cmtt/m/n/10 a swarm robotics collective decision making scenario.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--33
+\OT1/cmtt/m/n/10 In M. Dastani, G. Sukthankar, E. Andr^^Se, and S. Koenig,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--33
+\OT1/cmtt/m/n/10 editors, \OT1/cmtt/m/it/10 Proceedings of the 17th Internation
+al Conference on
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--33
+\OT1/cmtt/m/it/10 Autonomous Agents and MultiAgent Systems (AAMAS 2018)\OT1/cmt
+t/m/n/10 , pages
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--33
+\OT1/cmtt/m/n/10 541--549, Richland, SC, USA, 2018. International Foundation
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 35--43
+[]\OT1/cmtt/m/n/10 Volker Strobel and Marco Dorigo.  Blockchain technology
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--43
+\OT1/cmtt/m/n/10 for robot swarms: A shared knowledge and reputation
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--43
+\OT1/cmtt/m/n/10 Mauro Birattari, Christian Blum, Anders L. Christensen,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--43
+\OT1/cmtt/m/n/10 Andreagiovanni Reina, and Vito Trianni, editors, \OT1/cmtt/m/i
+t/10 Swarm
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--43
+\OT1/cmtt/m/it/10 Intelligence -- Proceedings of ANTS 2018 -- Eleventh
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--43
+\OT1/cmtt/m/it/10 International Conference\OT1/cmtt/m/n/10 , volume 11172 of \O
+T1/cmtt/m/it/10 Lecture Notes in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--43
+\OT1/cmtt/m/it/10 Computer Science\OT1/cmtt/m/n/10 , pages 425--426, Cham, Swit
+zerland, 2018.
+ []
+
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 318.
+ [7]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 318.
  (./article.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 238.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 238.
-Package rerunfilecheck Info: File `article.out' has not changed.
-(rerunfilecheck)             Checksum: E000BF6B270F2C01072AF134D1EC6034;604.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 318.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 318.
+
+
+Package rerunfilecheck Warning: File `article.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `article.out':
+(rerunfilecheck)             Before: E000BF6B270F2C01072AF134D1EC6034;604
+(rerunfilecheck)             After:  0BD57ED0142BFB81D9AE26D47720BD50;704.
 
 LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 238.
- ) 
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 318.
+ )
+(\end occurred inside a group at level 1)
+
+### simple group (level 1) entered at line 297 ({)
+### bottom level 
 Here is how much of TeX's memory you used:
- 5487 strings out of 494847
- 80730 string characters out of 6179079
- 162103 words of memory out of 5000000
- 8750 multiletter control sequences out of 15000+600000
- 8878 words of font info for 32 fonts, out of 8000000 for 9000
+ 5515 strings out of 494847
+ 81142 string characters out of 6179079
+ 160103 words of memory out of 5000000
+ 8765 multiletter control sequences out of 15000+600000
+ 9653 words of font info for 35 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 28i,8n,28p,325b,441s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti
-10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on article.pdf (5 pages, 1021590 bytes).
+ 28i,8n,31p,332b,476s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/urw/times/utmr8a.pfb>
+Output written on article.pdf (7 pages, 1072997 bytes).
 PDF statistics:
- 192 PDF objects out of 1000 (max. 8388607)
- 158 compressed objects within 2 object streams
- 31 named destinations out of 1000 (max. 500000)
+ 234 PDF objects out of 1000 (max. 8388607)
+ 193 compressed objects within 2 object streams
+ 37 named destinations out of 1000 (max. 500000)
  91 words of extra memory for PDF output out of 10000 (max. 10000000)
 

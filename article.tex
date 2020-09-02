@@ -12,6 +12,24 @@
 \begin{document}
 \maketitle
 
+\begin{abstract}
+
+  This technical report documents the installation and use of the
+  ARGoS-Blockchain interface. This interface allows for conducting
+  experiments in the robot swarm simulator ARGoS and the smart
+  contract blockchain framework Ethereum. The blockchain part uses the
+  container software Docker in order to facilitate the installation
+  and the parallelization of the blockchain nodes. The use of
+  blockchain-based smart contracts provides a framework for managing
+  security issues in robot swarms. The interface is a convenient way
+  to prototype blockchain-based control software in robot
+  swarms. Byzantine robots, that is, robots that behave in an
+  unintended way can disrupt the swarm behavior. In this technical
+  report, we detail the motivation, setup, and usage of the
+  ARGoS-blockchain interface.
+
+\end{abstract}
+
 \section{Introduction}
 
 Several recent works have addressed the combination of blockchain
@@ -164,46 +182,86 @@ network, you can also use this module without ARGoS.
 
 \section{Setup}
 
+The following setup steps describe the installation using Linux as
+operating system.
+
 \subsection{Requirements}
 \begin{itemize}
-\item Linux
-\item Docker
+\item Sufficient disk space (at least 16 GB)
+\item Docker 
+\item ARGoS\footnote{\url{https://github.com/ilpincy/argos3}} and the
+  ARGoS e-puck robot
+  plugin\footnote{\url{https://github.com/demiurge-project/argos3-epuck}}
+  (carefully read the instructions on the respective respositories)
 \end{itemize}
 
-\subsection{Installation: Blockchain module}
-The very first time you run this code, it is required to create the
-Docker image for the Ethereum nodes and initialize Docker Swarm as
-follows:
+\subsection{Installation --- Module~1: Blockchain module}
+
+1. First, obtain the source code for the blockchain module:
 
 \begin{verbatim}
-git clone https://github.com/Pold87/ARGoS-Blockchain-interface
-cd ARGoS-Blockchain-interface/ && cd geth/
-sudo docker build -t mygeth .
-sudo docker swarm init
+$ git clone https://github.com/Pold87/ARGoS-Blockchain-interface
 \end{verbatim}
+
+2. Then, you need to create the Docker image for the Ethereum nodes and
+initialize Docker Swarm as follows. By default, the execution of
+Docker commands requires root user privileges. To facilitate the
+execution of Docker commands, it is possible to run Docker as non-root
+user (i.e., without \texttt{sudo}) as follows (see
+\url{https://docs.docker.com/engine/install/linux-postinstall/} for
+more detailed instructions):
+
+\begin{verbatim}
+$ sudo groupadd docker
+$ sudo usermod -aG docker $USER
+\end{verbatim}
+
+
+
+4. Then, create the Ethereum image.
+
+\begin{verbatim}
+$ cd ARGoS-Blockchain-interface/ && cd geth/
+$ docker build -t mygeth .
+$ docker swarm init
+\end{verbatim}
+
+5. Set the ARGoS folder in start_network.sh
+
+TODO: Run script with NUMROBOTS=0
+
+TODO: Change from python to python3 in Dockerfile
+
+TODO: Download geth and put it into myowngeth/
+
+TODO: 
 
 \subsection{Installation: ARGoS module}
 
+1. Obtain the source code for the ARGoS module.
 
 \begin{verbatim}
-git clone https://github.com/Pold87/robot-swarms-need-blockchain
+git clone https://github.com/Pold87/ARGoS-Blockchain-interface
+\end{verbatim}
+
+2. Compile the ARGoS code.
+\begin{verbatim}
 cd robot-swarms-need-blockchain/
-mkdir cmake/
-cd cmake/
+mkdir build/
+cd build/
 cmake ..
 make
 \end{verbatim}
 
-
-Additionally, you have to set the variable \verb|DOCKERBASE| in the
-file \verb|global_config.sh| to the full path where this repository is
-located on your computer, for example:
+3. Set the variable \verb|DOCKERBASE| in the file
+\verb|global_config.sh| to the full path where the Blockchain module
+(Module 1) repository is located on your computer, for example:
 
 \begin{verbatim}
 DOCKERBASE='/home/vstrobel/Documents/docker-geth-network/'
 \end{verbatim}
 
-In order to be able to mine, you need to create the DAG datasets as
+4. In order to be able to mine, you need to create the DAG datasets as
 follows (the creates files require approximately 2~GB disk space and
 the execution of the script can take take several minutes):
 
@@ -213,6 +271,7 @@ bash create_dag.sh
 \end{verbatim}
 
 \section{Run}
+
 Usually, the network is created when a swarm robotics experiment is
 started, using one of the start scripts in
 \url{https://github.com/Pold87/robot-swarms-need-blockchain}.
@@ -226,6 +285,32 @@ bash local_scripts/start_network.sh <number of nodes>
 
 That is, \verb|bash local_scripts/start_network.sh 5|, would create a
 private Ethereum network with 5 nodes.
+
+\section{Debugging}
+
+First, check that the Docker container for the bootstrap node and the
+individual containers for the robots are running:
+
+\begin{verbatim}
+
+\end{verbatim}
+
+% Mention --no-trunc and how to access logs
+
+\section{Usage}
+
+The functions of the interface can be found in the file
+\texttt{/interface/generic_interface.cpp}.
+
+
+\begin{itemize}
+\item \texttt{unlockAccount}: Unlock the coinbase account.
+\item \texttt{startMining}: Start the mining process using one thread.
+\item \texttt{stopMining}: Stop the mining process.
+\item \texttt{addPeer}: Add a peer based on its enode.
+\item \texttt{removePeer}: Add a peer based on its enode.
+\item \texttt{scInterface}: 
+\end{itemize}
 
 \subsubsection*{Acknowledgements}
 
