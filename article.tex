@@ -1,5 +1,8 @@
 \documentclass{article}
 
+\usepackage{listings}
+\usepackage{enumitem}
+\lstset{language=bash} 
 \usepackage[round]{natbib}
 \usepackage{hyperref}
 \usepackage{dirtree}
@@ -158,7 +161,7 @@ The ARGoS-Blockchain interface is composed of two modules.
 Module~1 allows for creating an Ethereum network with several nodes,
 where each node is located in a separate Docker container. For the
 ARGoS-Blockchain interface, the interaction with the Ethereum nodes is
-done via C\texttt{++}, using the code in the following repository:
+done via C\texttt{++}, using the code in the following repository:\\
 \url{https://github.com/Pold87/robot-swarms-need-blockchain}
 
 This repository contains one module of the ARGoS-Blockchain interface
@@ -171,7 +174,7 @@ network, you can also use this module without ARGoS.
 
 \begin{figure}[t]
   \centering
-  \includegraphics{interface}
+  \includegraphics[width=\textwidth]{interface}
   \caption[Overview of the ARGoS-Blockchain interface]{This scheme
     gives an overview of the workflow of the ARGoS-Blockchain
     interface}
@@ -195,79 +198,133 @@ operating system.
   (carefully read the instructions on the respective respositories)
 \end{itemize}
 
-\subsection{Installation --- Module~1: Blockchain module}
+\subsection{Obtain Source Code}
 
-1. First, obtain the source code for the blockchain module:
+\begin{enumerate}[leftmargin=*]
+\item Create a base folder for storing the two modules of the
+  ARGoS-Blockchain interface.
+\begin{verbatim}
+$ mkdir interface/
+$ cd interface/
+$ pwd
+/home/vstrobel/software/interface
+\end{verbatim}
 
+\item Obtain the source code for the blockchain module.
 \begin{verbatim}
 $ git clone https://github.com/Pold87/ARGoS-Blockchain-interface
 \end{verbatim}
 
-2. Then, you need to create the Docker image for the Ethereum nodes and
-initialize Docker Swarm as follows. By default, the execution of
-Docker commands requires root user privileges. To facilitate the
-execution of Docker commands, it is possible to run Docker as non-root
-user (i.e., without \texttt{sudo}) as follows (see
-\url{https://docs.docker.com/engine/install/linux-postinstall/} for
-more detailed instructions):
+\item Obtain the source code for the ARGoS module.
+\begin{verbatim}
+git clone https://github.com/Pold87/robot-swarms-need-blockchain"
+\end{verbatim}
+\end{enumerate}
 
+\subsection{Installation --- Module~1: Blockchain module}
+
+\begin{enumerate}[leftmargin=*]
+\item By default, the execution of Docker commands requires root user
+  privileges. To facilitate the execution of Docker commands, it is
+  possible to run Docker as non-root user (i.e., without
+  \texttt{sudo}) as follows (see
+  \url{https://docs.docker.com/engine/install/linux-postinstall/} for
+  more detailed instructions).
 \begin{verbatim}
 $ sudo groupadd docker
 $ sudo usermod -aG docker $USER
 \end{verbatim}
-
-
-
-4. Then, create the Ethereum image.
+ % New item
+\item Obtain the Ethereum source code and store it in the folder
+\verb|myowngeth/|. Please note that Ethereum is compiled locally
+here. While there are Docker images for Ethereum, this allows for more
+customization (e.g., if you want to change the size of the DAG file,
+as explained in Section~\ref{sec:limited-hardware}).
 
 \begin{verbatim}
 $ cd ARGoS-Blockchain-interface/ && cd geth/
+$ git clone https://github.com/ethereum/go-ethereum.git myowngeth/
+\end{verbatim}
+% New item
+\item Create the Ethereum image and initialize the Docker swarm.
+
+\begin{verbatim}
 $ docker build -t mygeth .
 $ docker swarm init
 \end{verbatim}
-
-5. Set the ARGoS folder in start_network.sh
-
-TODO: Run script with NUMROBOTS=0
-
-TODO: Change from python to python3 in Dockerfile
-
-TODO: Download geth and put it into myowngeth/
-
-TODO: 
-
-\subsection{Installation: ARGoS module}
-
-1. Obtain the source code for the ARGoS module.
+% New item
+\item Set the ARGoS folder in the file \verb|start_network.sh|.
 
 \begin{verbatim}
-git clone https://github.com/Pold87/ARGoS-Blockchain-interface
+$ nano ../local_scripts/start_network
+ARGOSFOLDER="/home/vstrobel/software/interface/robot-swarms-need-blockchain"
 \end{verbatim}
+% TODO: Run script with NUMROBOTS=0
+\end{enumerate}
+\subsection{Installation --- Module~2: ARGoS module}
 
-2. Compile the ARGoS code.
+\item Compile the ARGoS code.
 \begin{verbatim}
-cd robot-swarms-need-blockchain/
-mkdir build/
-cd build/
-cmake ..
-make
+$ cd /home/vstrobel/software/interface/robot-swarms-need-blockchain/
+$ mkdir build/
+$ cd build/
+$ cmake ..
+$ make
 \end{verbatim}
-
-3. Set the variable \verb|DOCKERBASE| in the file
+  
+\item Set the variable \verb|DOCKERBASE| in the file
 \verb|global_config.sh| to the full path where the Blockchain module
 (Module 1) repository is located on your computer, for example:
 
 \begin{verbatim}
+$ cd ..
+$ nano global_config.sh
 DOCKERBASE='/home/vstrobel/Documents/docker-geth-network/'
 \end{verbatim}
 
-4. In order to be able to mine, you need to create the DAG datasets as
+\item In order to be able to mine, you need to create the DAG datasets as
 follows (the creates files require approximately 2~GB disk space and
 the execution of the script can take take several minutes):
 
 \begin{verbatim}
 cd local_scripts/
 bash create_dag.sh
+\end{verbatim}  
+\end{enumerate}
+
+\section{Modifications}
+
+\subsection{Changes for limited hardware}
+\label{sec:limited-hardware}
+
+The target platform of the ARGoS-blockchain interface are robots with
+limited hardware. The mining algorithm Proof-of-Work requires a 1~GB
+dataset by default that must be stored in the memory. On a Pi-puck,
+Proof-of-Work does not run out-of-the-box due the large DAG file that
+has to be kept in memory. In order to reduce the DAG file size
+(warning: this will likely decrease the security of the network in a
+real-world deployment but is fine in a private testnet), modify the
+file \verb|go-ethereum/consensus/ethash/algorithm.go| as described below.
+
+1. Change
+\begin{verbatim}
+datasetInitBytes   = 1 << 30 // Bytes in dataset at genesis
+\end{verbatim}
+to
+\begin{verbatim}
+datasetInitBytes   = 1 << 20 // Bytes in dataset at genesis
+\end{verbatim}
+2. Comment out the following lines:
+\begin{verbatim}
+//if epoch < maxEpoch {
+	  //return cacheSizes[epoch]
+	  //}
+\end{verbatim}
+        and        
+\begin{verbatim}
+//if epoch < maxEpoch {
+	  //return datasetSizes[epoch]
+	  //}
 \end{verbatim}
 
 \section{Run}
@@ -300,7 +357,7 @@ individual containers for the robots are running:
 \section{Usage}
 
 The functions of the interface can be found in the file
-\texttt{/interface/generic_interface.cpp}.
+\verb|/interface/generic_interface.cpp|.
 
 
 \begin{itemize}
@@ -320,7 +377,7 @@ Director respectively. Alexandre Pacheco acknowledges support from the
 Faculty of Applied Sciences of the Universit\'{e} Libre de Bruxelles.
 
 
-\bibliographystyle{plain}
+\bibliographystyle{abbrvnat}
 \bibliography{library}
 
 
