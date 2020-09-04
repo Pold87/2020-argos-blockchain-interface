@@ -185,8 +185,8 @@ network, you can also use this module without ARGoS.
 
 \section{Setup}
 
-The following setup steps describe the installation using Linux as
-operating system.
+The following setup steps describe the installation of the
+ARGoS-Blockchain interface using Linux as operating system.
 
 \subsection{Requirements}
 \begin{itemize}
@@ -195,8 +195,51 @@ operating system.
 \item ARGoS\footnote{\url{https://github.com/ilpincy/argos3}} and the
   ARGoS e-puck robot
   plugin\footnote{\url{https://github.com/demiurge-project/argos3-epuck}}
-  (carefully read the instructions on the respective respositories)
+  (see installation instructions below)
 \end{itemize}
+
+\subsection{Installation of ARGoS and the ARGoS e-puck plugin}
+
+This section briefly describes the setup of ARGoS and the ARGoS e-puck
+plugin. Please carefully read the README files of the respective
+respositories for more information.
+
+1. Obtain the source code of both repositories
+
+\begin{verbatim}
+$ git clone https://github.com/ilpincy/argos3.git
+$ git clone https://github.com/demiurge-project/argos3-epuck.git
+\end{verbatim}
+
+2. Install the dependencies.
+
+\begin{verbatim}
+$ sudo apt-get install cmake libfreeimage-dev libfreeimageplus-dev \
+  qt5-default freeglut3-dev libxi-dev libxmu-dev liblua5.3-dev \
+  lua5.3 doxygen graphviz graphviz-dev asciidoc
+\end{verbatim}
+
+2. Build and install ARGoS system-wide.
+\begin{verbatim}
+$ cd argos3/
+$ mkdir build
+$ cd build
+$ cmake ../src
+$ make
+$ make doc
+$ sudo make install
+\end{verbatim}
+
+3. Build and install the ARGoS-epuck plugin.
+
+\begin{verbatim}
+$ cd ../../argos3-epuck/
+$ mkdir build
+$ cd build
+$ cmake ../src
+$ make
+$ sudo make install
+\end{verbatim}
 
 \subsection{Obtain Source Code}
 
@@ -217,7 +260,7 @@ $ git clone https://github.com/Pold87/ARGoS-Blockchain-interface
 
 \item Obtain the source code for the ARGoS module.
 \begin{verbatim}
-git clone https://github.com/Pold87/robot-swarms-need-blockchain"
+$ git clone https://github.com/Pold87/robot-swarms-need-blockchain
 \end{verbatim}
 \end{enumerate}
 
@@ -253,16 +296,26 @@ $ docker build -t mygeth .
 $ docker swarm init
 \end{verbatim}
 % New item
-\item Set the ARGoS folder in the file \verb|start_network.sh|.
+\item Set the ARGoS folder in the file \verb|global_config_blockchain.sh|.
 
 \begin{verbatim}
-$ nano ../local_scripts/start_network
+$ nano ../local_scripts/global_config_blockchain.sh
 ARGOSFOLDER="/home/vstrobel/software/interface/robot-swarms-need-blockchain"
 \end{verbatim}
-% TODO: Run script with NUMROBOTS=0
+
+\item In order to be able to mine, you need to create the DAG
+  datasets. Creating the files requires approximately 2~GB disk space
+  and the execution of the script can take take several minutes.
+
+\begin{verbatim}
+cd local_scripts/
+bash create_dag.sh
+\end{verbatim}  
+  
 \end{enumerate}
 \subsection{Installation --- Module~2: ARGoS module}
 
+\begin{enumerate}
 \item Compile the ARGoS code.
 \begin{verbatim}
 $ cd /home/vstrobel/software/interface/robot-swarms-need-blockchain/
@@ -281,16 +334,31 @@ $ cd ..
 $ nano global_config.sh
 DOCKERBASE='/home/vstrobel/Documents/docker-geth-network/'
 \end{verbatim}
+\end{enumerate}
 
-\item In order to be able to mine, you need to create the DAG datasets as
-follows (the creates files require approximately 2~GB disk space and
-the execution of the script can take take several minutes):
+\section{Run}
+
+Usually, the network is created when a swarm robotics experiment is
+started, using one of the starter scripts in the folder
+\verb|robot-swarms-need-blockchain/starters/|. Start with a plain
+experiment to see if the installation was succesful. The command needs
+to be executed from the base folder of the ARGoS part of the
+blockchain interface.
 
 \begin{verbatim}
-cd local_scripts/
-bash create_dag.sh
-\end{verbatim}  
-\end{enumerate}
+$ bash starters/1_Plain.sh 3
+\end{verbatim}
+
+You can also start the Ethereum network without ARGoS, using
+the following command:
+
+\begin{verbatim}
+$ bash local_scripts/start_network.sh <number of nodes>
+\end{verbatim}
+
+That is, \verb|bash local_scripts/start_network.sh 5|, would create a
+private Ethereum network with 5 nodes.
+
 
 \section{Modifications}
 
@@ -327,21 +395,6 @@ datasetInitBytes   = 1 << 20 // Bytes in dataset at genesis
 	  //}
 \end{verbatim}
 
-\section{Run}
-
-Usually, the network is created when a swarm robotics experiment is
-started, using one of the start scripts in
-\url{https://github.com/Pold87/robot-swarms-need-blockchain}.
-
-However, you can also start the Ethereum network without ARGoS, using
-the following command:
-
-\begin{verbatim}
-bash local_scripts/start_network.sh <number of nodes>
-\end{verbatim}
-
-That is, \verb|bash local_scripts/start_network.sh 5|, would create a
-private Ethereum network with 5 nodes.
 
 \section{Debugging}
 
