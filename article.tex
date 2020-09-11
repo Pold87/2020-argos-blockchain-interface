@@ -10,13 +10,12 @@
 \graphicspath{{img/}}
 
 \title{ARGoS-Blockchain interface}
-\author{Volker Strobel \and Alex Pacheco \and Marco Dorigo}
+%\author{Volker Strobel \and Alex Pacheco \and Marco Dorigo}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-
   This technical report documents the installation and use of the
   ARGoS-Blockchain interface. This interface allows for conducting
   experiments in the robot swarm simulator ARGoS and the smart
@@ -30,24 +29,24 @@
   unintended way can disrupt the swarm behavior. In this technical
   report, we detail the motivation, setup, and usage of the
   ARGoS-blockchain interface.
-
 \end{abstract}
 
 \section{Introduction}
 
 Several recent works have addressed the combination of blockchain
 technology and swarm robotics
-\cite{StrCasDor2018:aamas,StrDor2018:ants,StrFerDor2017:techreport-013}. This
+\cite{StrCasDor2018:aamas,StrDor2018:ants,StrFerDor2017:techreport-013,Cas2016:arxiv,PacStrDor2020:techreport-001,PacStrDor2020:techreport-007}. This
 combination proves useful for security, consensus finding, robot
 economies, robot-as-a-service, and potentially many other applications
-in robot swarms. However, conducting experiments involving robot
+in robot swarms. Being a young research field, it misses standardized
+research platforms. However, conducting experiments involving robot
 swarms and blockchain technology requires a suitable testbed. A widely
 used framework consists of the Pi-puck robot platform running the
 Ethereum blockchain network. However, not every researcher has access
 to physical robots, obtaining and maintaining them be both
 time-intense and cost-intense, not to mention the lengthy execution of
 experiments. Therefore, a simulation testbed is needed to quickly try
-and test different controllers and scenarios. The ARGoS robot
+and test different controllers and scenarios. The ARGoS robot swarm
 simulator \citep{PinTriOGr-etal2012:si} is the state-of-the-art
 research platform to conduct simulations in swarm robotics. Such a
 framework proves useful both for researchers who do not have access to
@@ -70,9 +69,9 @@ interface on different platforms.
 
 The open-source software is available at GitHub: the blockchain module
 is available at
-\footnote{\url{https://github.com/Pold87/ARGoS-Blockchain-interface}}
+\footnote{\url{https://github.com/Pold87/AB-interface-Blockchain-module}}
 and the ARGoS module is available at
-\footnote{\url{https://github.com/Pold87/robot-swarms-need-blockchain}}.
+\footnote{\url{https://github.com/Pold87/AB-interface-ARGoS-module}}.
 
 \begin{figure}[t]%\centering
 \dirtree{%
@@ -186,7 +185,10 @@ network, you can also use this module without ARGoS.
 \section{Setup}
 
 The following setup steps describe the installation of the
-ARGoS-Blockchain interface using Linux as operating system.
+ARGoS-Blockchain interface using Linux as operating system. There is a
+video tutorial at \url{https://www.youtube.com/watch?v=IqiTJK_uzUY}
+that described the entire installation process, starting from a blank
+Ubuntu 20.04 LTS installation.
 
 \subsection{Requirements}
 \begin{itemize}
@@ -198,7 +200,38 @@ ARGoS-Blockchain interface using Linux as operating system.
   (see installation instructions below)
 \end{itemize}
 
-\subsection{Installation of ARGoS and the ARGoS e-puck plugin}
+\subsection{Installation of Docker}
+
+The installation of the Docker Engine on Ubuntu is described at
+\url{https://docs.docker.com/engine/install/ubuntu/}. Below, you will
+find information about how to control the Docker Engine as a non-root
+user.
+
+\begin{enumerate}[leftmargin=*]
+\item By default, the execution of Docker commands requires root user
+  privileges. To facilitate the execution of Docker commands, it is
+  possible to run Docker as non-root user (i.e., without
+  \texttt{sudo}) as follows (see
+  \url{https://docs.docker.com/engine/install/linux-postinstall/} for
+  more detailed instructions).
+\begin{verbatim}
+$ sudo groupadd docker
+$ sudo usermod -aG docker $USER
+$ newgrp docker
+\end{verbatim}
+
+\item Additionally, restarting the Docker engine via \verb|systemctl|
+  requires sudo privileges. To control Docker as a normal user, add an
+  entry in the sudoers file.
+\begin{verbatim}
+$ sudo visudo -f /etc/sudoers.d/docker
+volker ALL= NOPASSWD: /bin/systemctl restart docker.service
+volker ALL= NOPASSWD: /bin/systemctl start docker.service
+volker ALL= NOPASSWD: /bin/systemctl stop docker.service
+\end{verbatim}
+\end{enumerate}
+  
+ \subsection{Installation of ARGoS and the ARGoS e-puck plugin}
 
 This section briefly describes the setup of ARGoS and the ARGoS e-puck
 plugin. Please carefully read the README files of the respective
@@ -214,7 +247,7 @@ $ git clone https://github.com/demiurge-project/argos3-epuck.git
 2. Install the dependencies.
 
 \begin{verbatim}
-$ sudo apt-get install cmake libfreeimage-dev libfreeimageplus-dev \
+$ sudo apt-get install cmake g++ libfreeimage-dev libfreeimageplus-dev \
   qt5-default freeglut3-dev libxi-dev libxmu-dev liblua5.3-dev \
   lua5.3 doxygen graphviz graphviz-dev asciidoc
 \end{verbatim}
@@ -228,9 +261,21 @@ $ cmake ../src
 $ make
 $ make doc
 $ sudo make install
+$ sudo ldconfig
 \end{verbatim}
 
-3. Build and install the ARGoS-epuck plugin.
+3. Verify that the installation was succesful.
+
+\begin{verbatim}
+$ argos3 --version
+ARGOS_VERSION=3.0.0-beta56
+ARGOS_INSTALL_PREFIX=/usr/local
+ARGOS_USE_DOUBLE=ON
+ARGOS_WITH_LUA=ON
+ARGOS_BUILD_FLAGS= -Wall -g -ggdb3
+\end{verbatim}
+
+4. Build and install the ARGoS-epuck plugin.
 
 \begin{verbatim}
 $ cd ../../argos3-epuck/
@@ -239,6 +284,7 @@ $ cd build
 $ cmake ../src
 $ make
 $ sudo make install
+$ sudo ldconfig
 \end{verbatim}
 
 \subsection{Obtain Source Code}
@@ -247,46 +293,37 @@ $ sudo make install
 \item Create a base folder for storing the two modules of the
   ARGoS-Blockchain interface.
 \begin{verbatim}
-$ mkdir interface/
-$ cd interface/
+$ mkdir AB-interface/
+$ cd AB-interface/
 $ pwd
-/home/vstrobel/software/interface
+/home/volker/software/AB-interface
 \end{verbatim}
 
 \item Obtain the source code for the blockchain module.
 \begin{verbatim}
-$ git clone https://github.com/Pold87/ARGoS-Blockchain-interface
+$ git clone https://github.com/Pold87/AB-interface-Blockchain-module.git \ 
+  Blockchain-module
 \end{verbatim}
 
 \item Obtain the source code for the ARGoS module.
 \begin{verbatim}
-$ git clone https://github.com/Pold87/robot-swarms-need-blockchain
+$ git clone https://github.com/Pold87/AB-interface-ARGoS-module.git ARGoS-module
 \end{verbatim}
 \end{enumerate}
 
 \subsection{Installation --- Module~1: Blockchain module}
 
-\begin{enumerate}[leftmargin=*]
-\item By default, the execution of Docker commands requires root user
-  privileges. To facilitate the execution of Docker commands, it is
-  possible to run Docker as non-root user (i.e., without
-  \texttt{sudo}) as follows (see
-  \url{https://docs.docker.com/engine/install/linux-postinstall/} for
-  more detailed instructions).
-\begin{verbatim}
-$ sudo groupadd docker
-$ sudo usermod -aG docker $USER
-\end{verbatim}
+\begin{enumerate}
  % New item
 \item Obtain the Ethereum source code and store it in the folder
-\verb|myowngeth/|. Please note that Ethereum is compiled locally
+\verb|custom-geth/|. Please note that Ethereum is compiled locally
 here. While there are Docker images for Ethereum, this allows for more
 customization (e.g., if you want to change the size of the DAG file,
 as explained in Section~\ref{sec:limited-hardware}).
 
 \begin{verbatim}
 $ cd ARGoS-Blockchain-interface/ && cd geth/
-$ git clone https://github.com/ethereum/go-ethereum.git myowngeth/
+$ git clone https://github.com/ethereum/go-ethereum.git custom-geth/
 \end{verbatim}
 % New item
 \item Create the Ethereum image and initialize the Docker swarm.
@@ -296,16 +333,29 @@ $ docker build -t mygeth .
 $ docker swarm init
 \end{verbatim}
 % New item
-\item Set the ARGoS folder in the file \verb|global_config_blockchain.sh|.
+\item Next, we need to link the blockchain module and the ARGoS module. First, set the ARGoS folder in the file \verb|global_config_blockchain.sh|.
 
 \begin{verbatim}
 $ nano ../local_scripts/global_config_blockchain.sh
-ARGOSFOLDER="/home/vstrobel/software/interface/robot-swarms-need-blockchain"
+ARGOSFOLDER="/home/volker/software/AB-interface/ARGoS-module"
+\end{verbatim}
+
+\item Then, set the variable \verb|DOCKERBASE| in the file
+  \verb|global_config.sh| of the ARGoS module (Module~2) to the full
+  path where the blockchain module (Module~1) repository is located on
+  your computer, for example:
+
+\begin{verbatim}
+$ nano /home/volker/software/AB-interface/ARGoS-module/global_config.sh
+DOCKERBASE='/home/volker/software/AB-interface/Blockchain-module/'
 \end{verbatim}
 
 \item In order to be able to mine, you need to create the DAG
   datasets. Creating the files requires approximately 2~GB disk space
-  and the execution of the script can take take several minutes.
+  and the execution of the script can take take several minutes. If
+  you want to run the software on limited hardware, you can decrease
+  the size of the DAG dataset by carrying out the modifcations
+  described in Section~\ref{sec:limited-hardware}.
 
 \begin{verbatim}
 cd local_scripts/
@@ -318,35 +368,25 @@ bash create_dag.sh
 \begin{enumerate}
 \item Compile the ARGoS code.
 \begin{verbatim}
-$ cd /home/vstrobel/software/interface/robot-swarms-need-blockchain/
+$ cd /home/volker/software/AB-interface/ARGoS-module/
 $ mkdir build/
 $ cd build/
 $ cmake ..
 $ make
 \end{verbatim}
-  
-\item Set the variable \verb|DOCKERBASE| in the file
-\verb|global_config.sh| to the full path where the Blockchain module
-(Module 1) repository is located on your computer, for example:
-
-\begin{verbatim}
-$ cd ..
-$ nano global_config.sh
-DOCKERBASE='/home/vstrobel/Documents/docker-geth-network/'
-\end{verbatim}
 \end{enumerate}
-
+  
 \section{Run}
 
 Usually, the network is created when a swarm robotics experiment is
 started, using one of the starter scripts in the folder
-\verb|robot-swarms-need-blockchain/starters/|. Start with a plain
+\verb|ARGoS-module/starters/|. Start with a plain
 experiment to see if the installation was succesful. The command needs
 to be executed from the base folder of the ARGoS part of the
 blockchain interface.
 
 \begin{verbatim}
-$ bash starters/1_Plain.sh 3
+$ bash starters/1_Plain.sh
 \end{verbatim}
 
 You can also start the Ethereum network without ARGoS, using
@@ -359,8 +399,8 @@ $ bash local_scripts/start_network.sh <number of nodes>
 That is, \verb|bash local_scripts/start_network.sh 5|, would create a
 private Ethereum network with 5 nodes.
 
-
 \section{Modifications}
+\label{sec:modifications}
 
 \subsection{Changes for limited hardware}
 \label{sec:limited-hardware}
@@ -400,18 +440,29 @@ datasetInitBytes   = 1 << 20 // Bytes in dataset at genesis
 
 First, check that the Docker container for the bootstrap node and the
 individual containers for the robots are running:
+%
+\begin{verbatim}
+$ docker service ps ethereum_bootstrap --no-trunc
+$ docker service ps ethereum_eth --no-trunc
+\end{verbatim}
+%
+
+% \begin{verbatim}
+% ID                          NAME                   IMAGE               NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
+% ik6isqahrmsgzkzkj4pbb2zd5   ethereum_bootstrap.1   mygeth:latest       volker-TERRA-PC     Running             Running 4 minutes ago   
+% \end{verbatim}
+
+If the value of \verb|DESIRED STATE| is \verb|RUNNING|, take a look at
+the log files of the containers.
 
 \begin{verbatim}
-
+$ docker logs ethereum_bootstrap.1.ik6isqahrmsgzkzkj4pbb2zd5
 \end{verbatim}
-
-% Mention --no-trunc and how to access logs
 
 \section{Usage}
 
 The functions of the interface can be found in the file
 \verb|/interface/generic_interface.cpp|.
-
 
 \begin{itemize}
 \item \texttt{unlockAccount}: Unlock the coinbase account.
@@ -419,8 +470,20 @@ The functions of the interface can be found in the file
 \item \texttt{stopMining}: Stop the mining process.
 \item \texttt{addPeer}: Add a peer based on its enode.
 \item \texttt{removePeer}: Add a peer based on its enode.
-\item \texttt{scInterface}: 
+\item \texttt{scInterface}: A generic smart contract interface.
+\item \texttt{scReturn0(string function, long long wei)}: 
 \end{itemize}
+
+\subsection{Compilation}
+\label{sec:compilation}
+
+After changes to the ARGoS files are made, the code needs to be
+recompiled.
+
+\begin{verbatim}
+$ cd build/
+$ make
+\end{verbatim}
 
 \subsubsection*{Acknowledgements}
 

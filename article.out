@@ -5,12 +5,14 @@
 \BOOKMARK [3][-]{subsubsection.3.0.2}{Module 2: ARGoS part}{subsubsection.3.0.1}% 5
 \BOOKMARK [1][-]{section.4}{Setup}{}% 6
 \BOOKMARK [2][-]{subsection.4.1}{Requirements}{section.4}% 7
-\BOOKMARK [2][-]{subsection.4.2}{Installation of ARGoS and the ARGoS e-puck plugin}{section.4}% 8
-\BOOKMARK [2][-]{subsection.4.3}{Obtain Source Code}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.4}{Installation \204 Module 1: Blockchain module}{section.4}% 10
-\BOOKMARK [2][-]{subsection.4.5}{Installation \204 Module 2: ARGoS module}{section.4}% 11
-\BOOKMARK [1][-]{section.5}{Run}{}% 12
-\BOOKMARK [1][-]{section.6}{Modifications}{}% 13
-\BOOKMARK [2][-]{subsection.6.1}{Changes for limited hardware}{section.6}% 14
-\BOOKMARK [1][-]{section.7}{Debugging}{}% 15
-\BOOKMARK [1][-]{section.8}{Usage}{}% 16
+\BOOKMARK [2][-]{subsection.4.2}{Installation of Docker}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.3}{Installation of ARGoS and the ARGoS e-puck plugin}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.4}{Obtain Source Code}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.5}{Installation \204 Module 1: Blockchain module}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.6}{Installation \204 Module 2: ARGoS module}{section.4}% 12
+\BOOKMARK [1][-]{section.5}{Run}{}% 13
+\BOOKMARK [1][-]{section.6}{Modifications}{}% 14
+\BOOKMARK [2][-]{subsection.6.1}{Changes for limited hardware}{section.6}% 15
+\BOOKMARK [1][-]{section.7}{Debugging}{}% 16
+\BOOKMARK [1][-]{section.8}{Usage}{}% 17
+\BOOKMARK [2][-]{subsection.8.1}{Compilation}{section.8}% 18
