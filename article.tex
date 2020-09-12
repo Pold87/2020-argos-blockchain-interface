@@ -222,9 +222,12 @@ $ newgrp docker
 
 \item Additionally, restarting the Docker engine via \verb|systemctl|
   requires sudo privileges. To control Docker as a normal user, add an
-  entry in the sudoers file.
+  entry in the sudoers file (replace \verb|volker| with your user
+  name).
 \begin{verbatim}
 $ sudo visudo -f /etc/sudoers.d/docker
+\end{verbatim}
+\begin{verbatim}
 volker ALL= NOPASSWD: /bin/systemctl restart docker.service
 volker ALL= NOPASSWD: /bin/systemctl start docker.service
 volker ALL= NOPASSWD: /bin/systemctl stop docker.service
