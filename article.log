@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.12)  12 SEP 2020 23:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.12)  12 SEP 2020 23:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -307,18 +307,6 @@ Overfull \hbox (1.19942pt too wide) in paragraph at lines 20--33
 se of the ARGoS-
  []
 
-
-Package natbib Warning: Citation `Cas2016:arxiv' on page 1 undefined on input l
-ine 39.
-
-
-Package natbib Warning: Citation `PacStrDor2020:techreport-001' on page 1 undef
-ined on input line 39.
-
-
-Package natbib Warning: Citation `PacStrDor2020:techreport-007' on page 1 undef
-ined on input line 39.
-
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
@@ -326,7 +314,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 73.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 73.
-<img/overview.pdf, id=106, 428.39145pt x 79.13063pt>
+<img/overview.pdf, id=113, 428.39145pt x 79.13063pt>
 File: img/overview.pdf Graphic file (type pdf)
 <use img/overview.pdf>
 Package pdftex.def Info: img/overview.pdf  used on input line 91.
@@ -340,7 +328,7 @@ LaTeX Warning: Reference `fig:initialization' on page 3 undefined on input line
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 160.
 
-<img/interface.png, id=160, 504.9264pt x 134.904pt>
+<img/interface.png, id=167, 504.9264pt x 134.904pt>
 File: img/interface.png Graphic file (type png)
 <use img/interface.png>
 Package pdftex.def Info: img/interface.png  used on input line 177.
@@ -402,11 +390,8 @@ Overfull \hbox (51.41557pt too wide) in paragraph at lines 468--470
  []
 
 [8] (./article.bbl [9])
-
-Package natbib Warning: There were undefined citations.
-
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 504.
-[10]
+ [10]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 504.
  (./article.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 504.
@@ -420,13 +405,13 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 504.
  ) 
 Here is how much of TeX's memory you used:
- 7036 strings out of 494847
- 104213 string characters out of 6179079
- 188586 words of memory out of 5000000
- 10249 multiletter control sequences out of 15000+600000
+ 7045 strings out of 494847
+ 104501 string characters out of 6179079
+ 189749 words of memory out of 5000000
+ 10255 multiletter control sequences out of 15000+600000
  9485 words of font info for 34 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 31i,8n,49p,325b,499s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 31i,8n,49p,325b,601s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texli
@@ -443,10 +428,10 @@ are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texlive/t
 exmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fon
 ts/type1/urw/times/utmr8a.pfb>
-Output written on article.pdf (10 pages, 1062819 bytes).
+Output written on article.pdf (10 pages, 1064036 bytes).
 PDF statistics:
- 295 PDF objects out of 1000 (max. 8388607)
- 253 compressed objects within 3 object streams
- 57 named destinations out of 1000 (max. 500000)
+ 303 PDF objects out of 1000 (max. 8388607)
+ 261 compressed objects within 3 object streams
+ 60 named destinations out of 1000 (max. 500000)
  155 words of extra memory for PDF output out of 10000 (max. 10000000)
 
